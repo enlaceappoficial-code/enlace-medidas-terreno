@@ -33,6 +33,19 @@ export default function App() {
           headerStyle: { backgroundColor: colors.primary },
           headerTintColor: '#fff',
           headerTitleStyle: { fontWeight: 'bold' },
+          headerLeft: (props) => {
+            const canBack = props?.canGoBack ?? navigation.canGoBack();
+            if (!canBack) return null;
+            return (
+              <TouchableOpacity 
+                onPress={() => navigation.goBack()} 
+                style={{ paddingRight: 14, paddingVertical: 6, justifyContent: 'center' }}
+                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+              >
+                <Text style={{ color: '#ffffff', fontSize: 24, fontWeight: 'bold' }}>←</Text>
+              </TouchableOpacity>
+            );
+          },
           headerRight: () => (
             <>
               <Image 
