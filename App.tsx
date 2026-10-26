@@ -21,7 +21,12 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      documentTitle={{
+        formatter: (options, route) =>
+          `${options?.title ?? route?.name ?? 'Inicio'} · ECP Medidas de Terreno`,
+      }}
+    >
       <StatusBar style="light" backgroundColor={colors.primary} />
       <Stack.Navigator
         screenOptions={({ navigation }) => ({
