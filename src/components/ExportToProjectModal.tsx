@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, ScrollView, Alert, TextInput } from 'react-native';
 import { colors } from '../theme/colors';
-import { getProjects, addMeasureToChapter, saveProject } from '../store/storage';
+import { getProjects, addMeasureToChapter, saveProject, canCreateProject } from '../store/storage';
 import { Project, Chapter, MeasureItem } from '../store/models';
 
 interface ExportModalProps {
@@ -41,6 +41,15 @@ export default function ExportToProjectModal({ visible, onClose, exportData }: E
   const handleQuickCreateProject = async () => {
     if (!newProjectName.trim()) {
       Alert.alert('Error', 'Debes ingresar un nombre para el proyecto.');
+      return;
+    }
+
+    const check = await canCreateProject();
+    if (!check.allowed) {
+      Alert.alert(
+        'Límite de Visitas Alcanzado',
+        'Has alcanzado el límite de 2 visitas en el Modo Gratis. Activa tu Plan Pro de Enlace Constructor Pro en Configuración para crear proyectos ilimitados.'
+      );
       return;
     }
     const newProj: Project = {

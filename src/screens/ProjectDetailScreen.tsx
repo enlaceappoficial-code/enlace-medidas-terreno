@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, Alert, Image, Modal } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { colors } from '../theme/colors';
-import { getProjects, saveProject } from '../store/storage';
+import { getProjects, saveProject, canExportJSON } from '../store/storage';
 import { Project, Chapter, MeasureItem } from '../store/models';
 import { exportProjectJSON, exportProjectCSV, exportProjectPDF, exportProjectText } from '../utils/exporter';
+import LicenseModal from '../components/LicenseModal';
 
 export default function ProjectDetailScreen({ route, navigation }: any) {
   const passedProject = route.params?.project;
@@ -13,6 +14,8 @@ export default function ProjectDetailScreen({ route, navigation }: any) {
   const [project, setProject] = useState<Project | null>(passedProject || null);
   const [activeTab, setActiveTab] = useState<'capitulos' | 'notas' | 'fotos'>('capitulos');
   const [isExportModal, setExportModal] = useState(false);
+  const [isLicenseModalVisible, setIsLicenseModalVisible] = useState(false);
+  const [licenseReason, setLicenseReason] = useState('');
 
   // Modal Capítulo
   const [isCapituloModal, setCapituloModal] = useState(false);
@@ -605,7 +608,17 @@ export default function ProjectDetailScreen({ route, navigation }: any) {
 
             <TouchableOpacity 
               style={{backgroundColor: '#3b82f6', padding: 14, borderRadius: 8, marginBottom: 16, alignItems: 'center', flexDirection: 'row', justifyContent: 'center'}}
-              onPress={() => { exportProjectJSON(project); setExportModal(false); }}
+              onPress={async () => {
+                const check = await canExportJSON();
+                if (!check.allowed) {
+                  setExportModal(false);
+                  setLicenseReason('La exportación de Base de Datos a JSON para sincronizar con Enlace Constructor Pro (PC) es una función exclusiva del Plan Pro.');
+                  setIsLicenseModalVisible(true);
+                } else {
+                  exportProjectJSON(project);
+                  setExportModal(false);
+                }
+              }}
             >
               <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 16}}>💻 Exportar JSON (Para PC)</Text>
             </TouchableOpacity>
@@ -637,6 +650,13 @@ export default function ProjectDetailScreen({ route, navigation }: any) {
           </View>
         </View>
       </Modal>
+
+      {/* MODAL ACTIVACIÓN DE LICENCIA */}
+      <LicenseModal
+        visible={isLicenseModalVisible}
+        onClose={() => setIsLicenseModalVisible(false)}
+        reason={licenseReason}
+      />
 
     </View>
   );

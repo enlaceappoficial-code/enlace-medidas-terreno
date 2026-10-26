@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { colors } from '../theme/colors';
-import { saveProject } from '../store/storage';
+import { saveProject, canCreateProject } from '../store/storage';
 import { Project } from '../store/models';
 
 export default function CreateProjectScreen({ route, navigation }: any) {
@@ -19,6 +19,17 @@ export default function CreateProjectScreen({ route, navigation }: any) {
     if (!cliente || !descripcionObra) {
       Alert.alert('Faltan Datos', 'Por favor ingresa al menos el cliente y la descripción de la obra.');
       return;
+    }
+
+    if (!existingProject) {
+      const check = await canCreateProject();
+      if (!check.allowed) {
+        Alert.alert(
+          'Límite de Visitas Alcanzado',
+          'Has alcanzado el límite de 2 visitas en el Modo Gratis. Activa tu Plan Pro de Enlace Constructor Pro en Configuración para crear visitas ilimitadas.'
+        );
+        return;
+      }
     }
 
     const projectToSave: Project = {
