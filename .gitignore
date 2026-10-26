@@ -5,7 +5,7 @@ node_modules/
 
 # Expo
 .expo/
-dist/
+# dist/ (incluido para despliegue directo instantaneo en Cloudflare Pages)
 web-build/
 expo-env.d.ts
 

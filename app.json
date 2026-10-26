@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ecp_calculadora",
-    "slug": "ecp_calculadora",
+    "name": "ECP Medidas de Terreno",
+    "slug": "ecp-calculadora",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,7 +19,17 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./assets/favicon.png",
+      "name": "ECP Medidas de Terreno",
+      "shortName": "ECP Medidas",
+      "themeColor": "#0284c7",
+      "backgroundColor": "#f8fafc",
+      "display": "standalone",
+      "scope": "/",
+      "startUrl": "/"
+    },
+    "plugins": [
+      "expo-sharing"
+    ]
   }
 }
