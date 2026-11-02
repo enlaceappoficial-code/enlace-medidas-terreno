@@ -112,7 +112,7 @@ export default function SettingsScreen() {
 
       <TouchableOpacity 
         style={styles.optionRow} 
-        onPress={() => Linking.openURL('https://wa.me/56912345678?text=Hola,%20necesito%20soporte%20con%20ECP%20Medidas')}
+        onPress={() => Linking.openURL('https://wa.me/56964177582?text=Hola,%20necesito%20soporte%20con%20ECP%20Medidas')}
       >
         <Text style={styles.optionText}>💬 Soporte por WhatsApp</Text>
       </TouchableOpacity>

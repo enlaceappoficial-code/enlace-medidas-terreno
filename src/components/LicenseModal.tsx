@@ -42,7 +42,7 @@ export default function LicenseModal({ visible, onClose, onActivated, reason }: 
 
   const handleOpenWhatsApp = () => {
     const msg = encodeURIComponent('Hola! Deseo adquirir mi licencia de Enlace Constructor Pro para la app de medidas.');
-    Linking.openURL(`https://wa.me/56912345678?text=${msg}`);
+    Linking.openURL(`https://wa.me/56964177582?text=${msg}`);
   };
 
   return (
